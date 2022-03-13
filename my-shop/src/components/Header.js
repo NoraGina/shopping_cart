@@ -12,6 +12,7 @@ const Header = (props)=>{
         <Navbar
           bg="dark"
           variant="dark"
+          fixed="top"
       >
         <Container>
           {props.loggedUser && <div className="float-left">

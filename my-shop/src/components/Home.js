@@ -8,7 +8,7 @@ import "../styles/style.css";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState({});
-
+  //const [cart, setCart] = useState([]);
   let navigate = useNavigate();
 
     const goHome = () => {
@@ -39,35 +39,28 @@ const Home = () => {
   };
 
  
+ 
+
   const addToCart = (product) => {
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    //const exist = cartItems.find((x) => x.id === product.id);
-    const isItemInCart = products.find(item => item.id === product._id);
-    const nextId = ()=>{
-        let max = 0;
-    
-    for(let i = 0; i<=cartItems.length; i++){
-      if(i >=max){
-        max = i;
-      }
-      
-    }
-    return max+1;
-    }
-    if (isItemInCart) {
-        cartItems.push(cartItems.map((x) =>
-        x.id === product.id  ?{ ...isItemInCart, quantity: isItemInCart.quantity + 1 } : x
-      ))
-        
-      
+    let newCart = [...cartItems];
+    let itemInCart = newCart.find(
+      (item) => product._id === item._id
+    );
+    if (itemInCart) {
+      itemInCart.quantity++;
     } else {
-        const id = nextId();
-      cartItems.push([...cartItems, { ...product, quantity: 1, user:user._id, id:id }])
-      
+      itemInCart = {
+        ...product,
+        quantity: 1,
+         user:user.email
+      };
+      newCart.push(itemInCart);
     }
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  };
 
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }
+
 
   return (
     <div className="container-fluid mx-0 my-3">

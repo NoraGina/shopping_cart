@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from "react";
 
 const Cart = ()=>{
-    const [products, setProducts] = useState([]);
+    const [items, setItems] = useState([]);
 
-    useEffect(() => {
-        getProductsFromLocalStorage();
-      }, []);
-
-    const getProductsFromLocalStorage = () => {
-        const cartItems = JSON.parse(localStorage.getItem("cart"));
     
-        setProducts(cartItems);
-      }
+
+      useEffect(() => {
+        const items = JSON.parse(localStorage.getItem('cart'));
+        if (items) {
+         setItems(items);
+        }
+      }, []);
     return<div>
         <h2>Cart products:</h2>
        
@@ -31,16 +30,16 @@ const Cart = ()=>{
         </tr>
         </thead>
         <tbody>
-            {products && products.map(product =>{
-                return<tr key={product._id}>
-                <td>{product.user}</td>
-                <td>{product.producer}</td>
-                <td>{product.model}</td>
-                <td><img src={product.image} alt={product.mdel} style={{ height:"100px"}}></img></td>
-                <td>{product.price}</td>
-                <td>{product.warranty}</td>
-                <td>{product.rating} / 5</td>
-                <td>{product.quantity}</td>
+            {items && items.map((item, index) =>{
+                return<tr key={index}>
+                <td>{item.user}</td>
+                <td>{item.producer}</td>
+                <td>{item.model}</td>
+                <td><img src={item.image} alt={item.mdel} style={{ height:"200px"}}></img></td>
+                <td>{item.price}</td>
+                <td>{item.warranty}</td>
+                <td>{item.rating} / 5</td>
+                <td>{item.quantity}</td>
                 </tr>
             })}
         </tbody>

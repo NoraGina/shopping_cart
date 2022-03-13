@@ -1,0 +1,17 @@
+.boxImg{
+    border-radius: 1em 1em 0 0;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    background-size: cover;
+    margin: auto;
+    height: 350px;
+    width: 100%;
+}
+
+.productImg{
+    
+    
+    object-fit: cover;
+    margin: auto;
+    height: 350px;
+    width: 100%;
+}

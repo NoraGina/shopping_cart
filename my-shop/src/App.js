@@ -7,10 +7,12 @@ import Login from "./components/Login";
 import Products from "./components/Products";
 import CreateProducts from './components/CreateProducts';
 import Cart from './components/Cart';
-import Home from './components/Home'
+import Home from './components/Home';
+
 
 const App =()=>{
   const loggedUser = localStorage.getItem("user");
+  
   //const userAdmin = loggedUser.includes("admin");
   return (
     <div className="App">
@@ -19,6 +21,7 @@ const App =()=>{
         <Route path='register' element={<Register/>}></Route>
         <Route path="login" element={<Login />} />
         <Route path="/" element={<Home/>} />
+        
 
         {!!loggedUser && <>
             

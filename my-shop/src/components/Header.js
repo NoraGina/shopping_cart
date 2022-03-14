@@ -1,6 +1,7 @@
+
 import React from 'react';
-import { Navbar, Container, Nav } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = (props)=>{
     const location = useLocation();
@@ -8,6 +9,16 @@ const Header = (props)=>{
     const isCurrentURL = (url) => {
       return location.pathname.toLowerCase() === url.toLowerCase();
     };
+    let navigate = useNavigate();
+
+    const goHome = () => {
+      navigate("/");
+    };
+const logout = ()=>{
+    localStorage.clear();
+    goHome();
+}
+
     return<div>
         <Navbar
           bg="dark"
@@ -45,6 +56,11 @@ const Header = (props)=>{
                 <Link to="/login" className={`nav-link ${isCurrentURL("/login") && 'disabled'}`}>
                   Login
                 </Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Button variant="dark" onClick={() =>logout()}>Logout</Button>
+                  
+                
               </Nav.Item>
 
               

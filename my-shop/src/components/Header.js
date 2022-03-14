@@ -19,6 +19,8 @@ const logout = ()=>{
     goHome();
 }
 
+
+
     return<div>
         <Navbar
           bg="dark"
@@ -29,11 +31,6 @@ const logout = ()=>{
           {props.loggedUser && <div className="float-left">
             <Nav>
               <Nav.Item>
-                <Link to="/create-product" className={`nav-link ${isCurrentURL("/create-product") && 'disabled'}`}>
-                  Create product
-                </Link>
-              </Nav.Item>
-              <Nav.Item>
                 <Link to="/" className={`nav-link ${isCurrentURL("/") && 'disabled'}`}>
                   Home
                 </Link>
@@ -43,6 +40,17 @@ const logout = ()=>{
                   Cart
                 </Link>
               </Nav.Item>
+              <Nav.Item>
+                <Link to="/orders" className={`nav-link ${isCurrentURL("/orders") && 'disabled'}`}>
+                  Orders
+                </Link>
+              </Nav.Item>
+              {props.loggedUser.role && <Nav.Item>
+                <Link to="/create-product" className={`nav-link ${isCurrentURL("/create-product") && 'disabled'}`}>
+                  Create product
+                </Link>
+              </Nav.Item>}
+              
             </Nav>
           </div>}
           <div className="float-right">

@@ -8,20 +8,22 @@ import "../styles/style.css";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState({});
+  const loggedInUser = localStorage.getItem("user");
  
   let navigate = useNavigate();
 
     const goHome = () => {
       navigate("/Login");
     };
+    
  useEffect(() => {
-  const loggedInUser = localStorage.getItem("user");
+ 
   if (loggedInUser) {
     const foundUser = JSON.parse(loggedInUser);
     setUser(foundUser);
     
   }
-}, [] );
+}, [loggedInUser] );
 
   useEffect(() => {
     getProducts();
@@ -42,6 +44,7 @@ const Home = () => {
  
 
   const addToCart = (product) => {
+      
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     let newCart = [...cartItems];
     
@@ -67,7 +70,6 @@ const Home = () => {
             itemInCart = {
               ...product,
               quantity: 1,
-               user:user.email,
                id:id
             };
             newCart.push(itemInCart);
@@ -80,7 +82,7 @@ const Home = () => {
 
   return (
     <div className="container-fluid " style={{marginTop:"60px"}}>
-       <h4>Hello {user?.email}</h4> 
+       <h4>Hello {user?.fullName}</h4> 
       <div className="row g-2">
         {products &&
           products.map((product) => {
@@ -125,7 +127,7 @@ const Home = () => {
                           );
                         })}
                     </p>
-                    <button type="button" className="btn btn-outline-primary" disabled={!user} onClick={()=> addToCart(product)}><FontAwesomeIcon icon={faCartShopping} />Add to cart</button>
+                    <button type="button" className="btn btn-outline-primary"  onClick={()=>loggedInUser? addToCart(product):goHome()}><FontAwesomeIcon icon={faCartShopping} />Add to cart</button>
                   </div>
                 </div>
               </div>
@@ -136,3 +138,40 @@ const Home = () => {
   );
 };
 export default Home;
+/*const addToCart = (product) => {
+      
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    let newCart = [...cartItems];
+    
+    let itemInCart = newCart.find(
+      (item) => product._id === item._id
+    );
+    const getNextId =()=> {
+        let max = 0;
+        
+        for(let val of cartItems){
+          if(val.id >=max){
+            max = val.id;
+          }
+          
+        }
+        return max+1;
+      }
+    
+        if (itemInCart) {
+            itemInCart.quantity++;
+          } else {
+              const id = getNextId();
+            itemInCart = {
+              ...product,
+              quantity: 1,
+               user:user.email,
+               id:id
+            };
+            newCart.push(itemInCart);
+          }
+          localStorage.setItem("cart", JSON.stringify(newCart));
+    
+  };
+
+*/

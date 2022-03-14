@@ -10,17 +10,19 @@ const Register = (props)=>{
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('female');
   const[role, setRole]= useState('customer');
+  const[fullName, setFullName] = useState('')
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [user, setUser] = useState(null)
 
-  const canSubmit = email && password && gender && role && agreedToTerms;
+  const canSubmit = email && password && gender && role && fullName && agreedToTerms;
 
   const onSubmit = () => {
     const newUser = {
       email,
       password,
       gender, 
-      role
+      role, 
+      fullName
     }
 
     fetch(`${BASE_URL}/users`, {
@@ -38,11 +40,15 @@ const Register = (props)=>{
   }
 
     return<Container className="mt-5">
-    <h2>Hello {props?.user?.email}</h2>
+    <h2>Hello {props?.user?.fullName}</h2>
     <Row className="bg-success bg-opacity-25 p-5" style={{maxWidth: "600px", margin: "0 auto"}}>
       <Col>
         <h2>Register</h2>
         <Form>
+        <Form.Group className="mb-3">
+            <Form.Label>Fullname</Form.Label>
+            <Form.Control type="text" placeholder="Enter fullName" value={fullName} onChange={e => setFullName(e.target.value)}/>
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="text" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
@@ -108,7 +114,7 @@ const Register = (props)=>{
           <p>Already registered? Go to <Link to="/login">Login</Link></p>
 
           {user && <Alert variant={"success"}>
-            User {user.email} was successfully registered
+            User {user.fullName} was successfully registered
           </Alert>}
 
         </Form>

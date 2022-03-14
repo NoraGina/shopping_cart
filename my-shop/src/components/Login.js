@@ -57,7 +57,7 @@ const Login = (props)=>{
         Login
       </Button>
       <br/>
-      <p>Not registered? Go to <Link to="/">Register</Link></p>
+      <p>Not registered? Go to <Link to="/register">Register</Link></p>
 
       {userStatus === "logged" && <Alert variant={"success"}>
         User was logged in successfully

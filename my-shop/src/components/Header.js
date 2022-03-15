@@ -35,28 +35,39 @@ const logout = ()=>{
                   Home
                 </Link>
               </Nav.Item>
+              
+              
               <Nav.Item>
-                <Link to="/cart" className={`nav-link ${isCurrentURL("/cart") && 'disabled'}`}>
-                  Cart
-                </Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Link to="/orders" className={`nav-link ${isCurrentURL("/orders") && 'disabled'}`}>
-                  Orders
-                </Link>
-              </Nav.Item>
-              {props.loggedUser.role && <Nav.Item>
-                <Link to="/create-product" className={`nav-link ${isCurrentURL("/create-product") && 'disabled'}`}>
-                  Create product
-                </Link>
-              </Nav.Item>}
+              <Link to="/create-product" className={`nav-link ${isCurrentURL("/create-product") && 'disabled'}`}>
+                Create product
+              </Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to="/products" className={`nav-link ${isCurrentURL("/products") && 'disabled'}`}>
+                Products
+              </Link>
+            </Nav.Item>
+            
+            
+            <Nav.Item>
+            <Link to="/cart" className={`nav-link ${isCurrentURL("/cart") && 'disabled'}`}>
+              Cart
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link to="/orders" className={`nav-link ${isCurrentURL("/orders") && 'disabled'}`}>
+              Orders
+            </Link>
+          </Nav.Item>
+          
+               
               
             </Nav>
           </div>}
           <div className="float-right">
             <Nav>
               <Nav.Item>
-                <Link to="/" className={`nav-link ${isCurrentURL("/") && 'disabled'}`}>
+                <Link to="/register" className={`nav-link ${isCurrentURL("/register") && 'disabled'}`}>
                   Register
                 </Link>
               </Nav.Item>

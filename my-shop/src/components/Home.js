@@ -8,11 +8,23 @@ import "../styles/style.css";
 const Home = () => {
   const [products, setProducts] = useState([]);
 
-  const user = JSON.parse(localStorage.getItem("user") || "[]");
+  //const user = JSON.parse(localStorage.getItem("user") || "[]");
+
+const [user, setUser] = useState({});
+  const loggedInUser = localStorage.getItem("user");
+ useEffect(() => {
+ 
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+      
+    }
+  }, [loggedInUser] );
+
   let navigate = useNavigate();
 
-  const goHome = () => {
-    navigate("/Login");
+  const goLogin = () => {
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -118,7 +130,7 @@ const Home = () => {
                     <button
                       type="button"
                       className="btn btn-outline-primary"
-                      onClick={() => (user ? addToCart(product) : goHome())}
+                      onClick={() => (loggedInUser? addToCart(product) : goLogin())}
                     >
                       <FontAwesomeIcon icon={faCartShopping} />
                       Add to cart

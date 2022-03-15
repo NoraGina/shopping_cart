@@ -11,9 +11,10 @@ import Home from './components/Home';
 import Orders from './components/Orders';
 
 
+
 const App =()=>{
   const loggedUser = localStorage.getItem("user");
-  
+ // const user = JSON.parse(localStorage.getItem("user") || "[]");
   
   
   //const userAdmin = loggedUser.includes("admin");
@@ -24,25 +25,23 @@ const App =()=>{
         <Route path="register" element={<Register/>}/>
         <Route path="login" element={<Login />} />
         <Route path="/" element={<Home/>} />
-        
+  {!!loggedUser && <>
+    
+           <Route path="products" element={<Products />} />
+           <Route path="create-product" element={<CreateProducts />} />
+          
+           <Route path="cart" element={<Cart />} />
+           
+       
+            <Route path="orders" element={<Orders/>} />
+            
+         
 
-        {!!loggedUser && <>
+  
+  </>}
             
-            
-            <Route path="cart" element={<Cart />} />
-            <Route
-          path="orders"
-          element={<Orders/>}
-        />
-
-          </>}
-          {!!loggedUser && <>
-            
-            <Route path="products" element={<Products />} />
-            <Route path="create-product" element={<CreateProducts />} />
-            
-
-          </>}
+          
+         
          
       </Routes>
     </div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {BASE_URL} from '../constants';
 import { useNavigate} from "react-router-dom";
+
+
 const Cart = () => {
     
   const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -16,7 +18,13 @@ const Cart = () => {
     orderItems: items,
     address: "",
     phone: "",
-    currentDate: date
+    currentDate: date,
+    status:"Affected",
+    requirements:"No requirement", 
+    total: items.reduce(
+        (sum, { price, quantity }) => sum + price * quantity,
+        0
+      )
   });
   
  
@@ -24,7 +32,7 @@ const Cart = () => {
 
   let navigate = useNavigate();
 
-  const goToOrders = () => {
+  const goToOrder = () => {
     navigate("/orders");
   };
 
@@ -49,7 +57,7 @@ const Cart = () => {
          .then((response) => response.json())
          .then((order) => console.log(order))
          .catch((error) => console.log(error));
-         goToOrders();
+         goToOrder();
         
   };
 
@@ -94,6 +102,8 @@ const Cart = () => {
     );
   };
 
+const totalCart = getTotalSum().toFixed(2);
+
   const removeFromCart = (productToRemove) => {
     setItems(items.filter((item) => item !== productToRemove));
   };
@@ -103,6 +113,9 @@ const Cart = () => {
     newCart.find((item) => item._id === product._id).quantity = amount;
     setItems(newCart);
   };
+
+  
+
   return (
     <div className="container-fluid" style={{ marginTop: "50px" }}>
       {items.length === 0 ? (
@@ -115,7 +128,7 @@ const Cart = () => {
           <table className="table table-success table-striped">
             <thead>
               <tr>
-                <th>Id</th>
+                
                 <th>Producer</th>
                 <th>Model</th>
                 <th>Image</th>
@@ -131,10 +144,9 @@ const Cart = () => {
               {items &&
                 items.map((item) => {
                   return (
-                    <tr key={item.id}>
-                      <td>{item.id}</td>
-
-                      <td>{item.producer}</td>
+                    <tr key={item._id}>
+                      
+                    <td>{item.producer}</td>
                       <td>{item.model}</td>
                       <td>
                         <img
@@ -167,7 +179,8 @@ const Cart = () => {
                           Delete
                         </button>
                       </td>
-                    </tr>
+                      </tr>
+                  
                   );
                 })}
             </tbody>
@@ -179,25 +192,29 @@ const Cart = () => {
               paddingRight: "20px",
             }}
           >
-            <h5>Total Cost:Lei {getTotalSum()}</h5>
+            <span >Total Cost:Lei </span><span>{totalCart}</span>
+                     
           </div>
           <div className="container-md">
          
-            <div className="input-group mb-2">
-              <span className="input-group-text">
-                Address City, County, Street, Number...
-              </span>
-              <textarea
-                className="form-control"
-                aria-label="Address City, County, Street, Number..."
+          <div className="input-group mb-2">
+              <span className="input-group-text">Address</span>
+              <input
+                type="text"
                 name="address"
+                pattern="[0-9]*"
+                minLength="10"
+                className="form-control"
+                placeholder="Enter city, street, Nr., block, Ap."
+                aria-label="Phone"
+                aria-describedby="basic-addon1"
                 value={order.address}
-                onChange={handleChange}
-              ></textarea>
+                  onChange={handleChange}
+              />
             </div>
             {formErrors && formErrors.name ==='address' ?
            <p style={{ color: "red" }}>{formErrors.message}</p>:null}
-            <div className="input-group mb-3">
+            <div className="input-group mb-2">
               <span className="input-group-text">Phone</span>
               <input
                 type="text"
@@ -214,6 +231,18 @@ const Cart = () => {
             </div>
             {formErrors && formErrors.name ==='phone' ?
            <p style={{ color: "red" }}>{formErrors.message}</p>:null}
+           <div className="input-group mb-3">
+              <span className="input-group-text">
+                Requirements
+              </span>
+              <textarea
+                className="form-control"
+                aria-label="Requirements"
+                name="requirements"
+                value={order.requirements}
+                onChange={handleChange}
+              ></textarea>
+            </div>
             <button type="button" className="btn btn-outline-success"  onClick={onSubmit}>
               Save order
             </button>

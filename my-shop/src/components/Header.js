@@ -35,9 +35,14 @@ const logout = ()=>{
                   Home
                 </Link>
               </Nav.Item>
-              
-              
               <Nav.Item>
+            <Link to="/cart" className={`nav-link ${isCurrentURL("/cart") && 'disabled'}`}>
+              Cart
+            </Link>
+          </Nav.Item>
+          </Nav>
+          {props.role &&<Nav>
+            <Nav.Item>
               <Link to="/create-product" className={`nav-link ${isCurrentURL("/create-product") && 'disabled'}`}>
                 Create product
               </Link>
@@ -47,22 +52,14 @@ const logout = ()=>{
                 Products
               </Link>
             </Nav.Item>
-            
-            
             <Nav.Item>
-            <Link to="/cart" className={`nav-link ${isCurrentURL("/cart") && 'disabled'}`}>
-              Cart
-            </Link>
-          </Nav.Item>
-          <Nav.Item>
             <Link to="/orders" className={`nav-link ${isCurrentURL("/orders") && 'disabled'}`}>
               Orders
             </Link>
           </Nav.Item>
-          
-               
+              </Nav>}
               
-            </Nav>
+           
           </div>}
           <div className="float-right">
             <Nav>

@@ -14,7 +14,7 @@ import Orders from './components/Orders';
 
 const App =()=>{
   const loggedUser = localStorage.getItem("user");
- // const user = JSON.parse(localStorage.getItem("user") || "[]");
+  const user = JSON.parse(localStorage.getItem("user") || "[]");
   
   
   //const userAdmin = loggedUser.includes("admin");
@@ -26,18 +26,16 @@ const App =()=>{
         <Route path="login" element={<Login />} />
         <Route path="/" element={<Home/>} />
   {!!loggedUser && <>
-    
+
+    <Route path="cart" element={<Cart />} />
+    {!!user.role==="admin" && <>
            <Route path="products" element={<Products />} />
            <Route path="create-product" element={<CreateProducts />} />
-          
-           <Route path="cart" element={<Cart />} />
-           
-       
-            <Route path="orders" element={<Orders/>} />
-            
-         
+           <Route path="orders" element={<Orders/>} />
 
-  
+           </>
+}
+            
   </>}
             
           

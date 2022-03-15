@@ -19,6 +19,9 @@ const logout = ()=>{
     goHome();
 }
 
+//console.log(user.role)
+//const loggedInUser = JSON.parse(localStorage.getItem("user") || "[]");
+//const isAdmin = loggedInUser.role === 'admin';
 
 
     return<div>
@@ -28,20 +31,25 @@ const logout = ()=>{
           fixed="top"
       >
         <Container>
-          {props.loggedUser && <div className="float-left">
-            <Nav>
+        <div className="float-left">
+        <Nav>
               <Nav.Item>
                 <Link to="/" className={`nav-link ${isCurrentURL("/") && 'disabled'}`}>
                   Home
                 </Link>
               </Nav.Item>
-              <Nav.Item>
+              </Nav>
+            </div>
+          {props.isCustomer && <div className="float-left">
+              <Nav>
+            <Nav.Item>
             <Link to="/cart" className={`nav-link ${isCurrentURL("/cart") && 'disabled'}`}>
               Cart
             </Link>
           </Nav.Item>
           </Nav>
-          {props.role &&<Nav>
+          </div>}
+          {props.isAdmin &&<Nav>
             <Nav.Item>
               <Link to="/create-product" className={`nav-link ${isCurrentURL("/create-product") && 'disabled'}`}>
                 Create product
@@ -60,9 +68,9 @@ const logout = ()=>{
               </Nav>}
               
            
-          </div>}
-          <div className="float-right">
-            <Nav>
+          
+         {!props.loggedUser&& <div className = "float-right">
+         <Nav>
               <Nav.Item>
                 <Link to="/register" className={`nav-link ${isCurrentURL("/register") && 'disabled'}`}>
                   Register
@@ -73,16 +81,14 @@ const logout = ()=>{
                   Login
                 </Link>
               </Nav.Item>
-              <Nav.Item>
-                <Button variant="dark" onClick={() =>logout()}>Logout</Button>
-                  
-                
-              </Nav.Item>
-
-              
-
-            </Nav>
-          </div>
+              </Nav>
+              </div>} 
+              {props.loggedUser&&<div className="float-right">
+           
+           <Nav.Item>
+             <Button variant="dark" onClick={() =>logout()}>Logout</Button>
+          </Nav.Item>
+            </div>}
         </Container>
       </Navbar>
     </div>

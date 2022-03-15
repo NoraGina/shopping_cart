@@ -1,4 +1,4 @@
-import React from 'react';
+//import React, {useState, useEffect} from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -15,29 +15,36 @@ import Orders from './components/Orders';
 const App =()=>{
   const loggedUser = localStorage.getItem("user");
   const user = JSON.parse(localStorage.getItem("user") || "[]");
-  
-  
-  //const userAdmin = loggedUser.includes("admin");
+  //const user = JSON.parse(loggedUser);
+
+const isAdmin = user.role === 'admin';
+const isCustomer = user.role ==='customer';
   return (
     <div className="App">
-      <Header loggedUser={!!loggedUser}/>
+      <Header loggedUser={!!loggedUser}
+      isAdmin={!!isAdmin}
+      isCustomer={!!isCustomer}/>
       <Routes>
-        <Route path="register" element={<Register/>}/>
-        <Route path="login" element={<Login />} />
-        <Route path="/" element={<Home/>} />
-  {!!loggedUser && <>
+      <Route path="/" element={<Home/>} />
+        {!loggedUser&&<>
+          <Route path="register" element={<Register/>}/>
+          <Route path="login" element={<Login />} />
+          
+        </>}
+        
+  {isCustomer&& <>
 
     <Route path="cart" element={<Cart />} />
-    {!!user.role==="admin" && <>
+    
+            
+  </>}
+  {!!isAdmin && <>
            <Route path="products" element={<Products />} />
            <Route path="create-product" element={<CreateProducts />} />
            <Route path="orders" element={<Orders/>} />
 
            </>
-}
-            
-  </>}
-            
+}    
           
          
          

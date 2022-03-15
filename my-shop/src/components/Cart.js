@@ -6,9 +6,9 @@ const Cart = () => {
   const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
   const user = JSON.parse(localStorage.getItem("user") || "[]");
   const [items, setItems] = useState(cartFromLocalStorage);
-  let today = new Date(),
 
-  date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  let today = new Date(),
+ date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
  
   const [order, setOrder] = useState({
@@ -18,8 +18,8 @@ const Cart = () => {
     phone: "",
     currentDate: date
   });
-  //const arrayChildren = Children.toArray(order);
-  console.log("User "+user.email)
+  
+ 
   const [formErrors, setFormErrors] = useState(null);
 
   let navigate = useNavigate();
@@ -82,14 +82,7 @@ const Cart = () => {
     });
   };
 
-  /*useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
-     
-    }
-  }, [] );*/
+ 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(items));
   }, [items]);
@@ -101,8 +94,8 @@ const Cart = () => {
     );
   };
 
-  const removeFromCart = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+  const removeFromCart = (productToRemove) => {
+    setItems(items.filter((item) => item !== productToRemove));
   };
 
   const setQuantity = (product, amount) => {
@@ -169,7 +162,7 @@ const Cart = () => {
                         <button
                           type="button"
                           className="btn btn-outline-danger"
-                          onClick={() => removeFromCart(+item.id)}
+                          onClick={() => removeFromCart(item)}
                         >
                           Delete
                         </button>
@@ -264,4 +257,14 @@ useEffect(() => {
                 aria-describedby="basic-addon1"
                 value={order.customer}
                   onChange={handleChange}
-              />*/
+              />
+           useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+     
+    }
+  }, [] );   
+              
+              */

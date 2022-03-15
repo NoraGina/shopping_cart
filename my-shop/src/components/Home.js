@@ -1,29 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../constants";
 import { faStar, faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/style.css";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [user, setUser] = useState({});
-  const loggedInUser = localStorage.getItem("user");
- 
+
+  const user = JSON.parse(localStorage.getItem("user") || "[]");
   let navigate = useNavigate();
 
-    const goHome = () => {
-      navigate("/Login");
-    };
-    
- useEffect(() => {
- 
-  if (loggedInUser) {
-    const foundUser = JSON.parse(loggedInUser);
-    setUser(foundUser);
-    
-  }
-}, [loggedInUser] );
+  const goHome = () => {
+    navigate("/Login");
+  };
 
   useEffect(() => {
     getProducts();
@@ -40,58 +30,39 @@ const Home = () => {
       .catch((error) => console.log(error));
   };
 
-  
- 
-
   const addToCart = (product) => {
-      
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     let newCart = [...cartItems];
-    
-    let itemInCart = newCart.find(
-      (item) => product._id === item._id
-    );
-    const getNextId =()=> {
-        let max = 0;
-        
-        for(let val of cartItems){
-          if(val.id >=max){
-            max = val.id;
-          }
-          
-        }
-        return max+1;
-      }
-    
-        if (itemInCart) {
-            itemInCart.quantity++;
-          } else {
-              const id = getNextId();
-            itemInCart = {
-              ...product,
-              quantity: 1,
-               id:id
-            };
-            newCart.push(itemInCart);
-          }
-          localStorage.setItem("cart", JSON.stringify(newCart));
-    
+
+    let itemInCart = newCart.find((item) => product._id === item._id);
+
+    if (itemInCart) {
+      itemInCart.quantity++;
+    } else {
+      itemInCart = {
+        ...product,
+        quantity: 1,
+      };
+      newCart.push(itemInCart);
+    }
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
-
-
   return (
-    <div className="container-fluid " style={{marginTop:"60px"}}>
-       <h4>Hello {user?.fullName}</h4> 
+    <div className="container-fluid " style={{ marginTop: "60px" }}>
+      <h4>Hello {user?.fullName}</h4>
       <div className="row g-2">
         {products &&
           products.map((product) => {
             return (
               <div
-                className="col-12  col-sm-6 col-md-5 col-lg-4 col-xl-3 " 
+                className="col-12  col-sm-6 col-md-5 col-lg-4 col-xl-3 "
                 key={product._id}
               >
-                <div className="card h-100 " style={{ borderRadius: "1em 1em 0 0"}}>
+                <div
+                  className="card h-100 "
+                  style={{ borderRadius: "1em 1em 0 0" }}
+                >
                   <div className="boxImg">
                     <img
                       src={product.image}
@@ -101,11 +72,28 @@ const Home = () => {
                   </div>
                   <div className="card-body">
                     <h4 className="card-title fw-bold">
-                      <span style={{fontSize:"smaller", fontWeight:"lighter"}} >Producer:</span> {product.producer}
+                      <span
+                        style={{ fontSize: "smaller", fontWeight: "lighter" }}
+                      >
+                        Producer:
+                      </span>{" "}
+                      {product.producer}
                     </h4>
-                    <h5 className="card-title fw-bold"><span style={{fontSize:"smaller", fontWeight:"lighter"}} >Model:</span> {product.model}</h5>
                     <h5 className="card-title fw-bold">
-                    <span style={{fontSize:"smaller", fontWeight:"lighter"}} >Price:</span> {product.price} Lei
+                      <span
+                        style={{ fontSize: "smaller", fontWeight: "lighter" }}
+                      >
+                        Model:
+                      </span>{" "}
+                      {product.model}
+                    </h5>
+                    <h5 className="card-title fw-bold">
+                      <span
+                        style={{ fontSize: "smaller", fontWeight: "lighter" }}
+                      >
+                        Price:
+                      </span>{" "}
+                      {product.price} Lei
                     </h5>
                     <p className="text-start">Warranty: {product.warranty}</p>
                     <p className="text-start">
@@ -127,7 +115,14 @@ const Home = () => {
                           );
                         })}
                     </p>
-                    <button type="button" className="btn btn-outline-primary"  onClick={()=>loggedInUser? addToCart(product):goHome()}><FontAwesomeIcon icon={faCartShopping} />Add to cart</button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary"
+                      onClick={() => (user ? addToCart(product) : goHome())}
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                      Add to cart
+                    </button>
                   </div>
                 </div>
               </div>
@@ -138,7 +133,20 @@ const Home = () => {
   );
 };
 export default Home;
-/*const addToCart = (product) => {
+/*
+
+//const [user, setUser] = useState({});
+ // const loggedInUser = localStorage.getItem("user");
+ useEffect(() => {
+ 
+  if (loggedInUser) {
+    const foundUser = JSON.parse(loggedInUser);
+    setUser(foundUser);
+    
+  }
+}, [loggedInUser] );
+
+const addToCart = (product) => {
       
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     let newCart = [...cartItems];
@@ -174,4 +182,17 @@ export default Home;
     
   };
 
+  const getNextId =()=> {
+        let max = 0;
+        
+        for(let val of cartItems){
+          if(val.id >=max){
+            max = val.id;
+          }
+          
+        }
+        return max+1;
+      }
+    const id = getNextId();
+ id:id
 */
